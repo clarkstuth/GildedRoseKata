@@ -109,6 +109,59 @@ namespace GildedRose.Tests
             Assert.AreEqual(expectedQuality, items[0].Quality);
         }
 
+        [TestMethod]
+        public void AgedBrieShouldIncreaseInQualityAsItGetsOlder()
+        {
+            var items = new List<Item>
+            {
+                new Item{Name = "Aged Brie", Quality = 5, SellIn = 2}
+            };
+
+            var gildedRose = new GildedRose(items);
+            gildedRose.UpdateQuality();
+            gildedRose.UpdateQuality();
+            gildedRose.UpdateQuality();
+
+            var expectedQuality = 9;
+            Assert.AreEqual(expectedQuality, items[0].Quality);
+        }
+
+        [TestMethod]
+        public void AgedBrieShouldNotGoAboveQuality50()
+        {
+            var items = new List<Item>
+            {
+                new Item{Name = "Aged Brie", Quality = 49, SellIn = 10},
+                new Item{Name = "Aged Brie", Quality = 50, SellIn = 0},
+            };
+
+            var gildedRose = new GildedRose(items);
+            gildedRose.UpdateQuality();
+            gildedRose.UpdateQuality();
+            gildedRose.UpdateQuality();
+
+            var expectedQuality = 50;
+            items.ForEach(item => Assert.AreEqual(expectedQuality, item.Quality));
+        }
+
+        [TestMethod]
+        public void SulfurasShouldNotDegradeInQuality()
+        {
+            var items = new List<Item>
+            {
+                new Item{Name = "Sulfuras, Hand of Ragnaros", Quality = 80, SellIn = 10}
+            };
+
+            var gildedRose = new GildedRose(items);
+            gildedRose.UpdateQuality();
+            gildedRose.UpdateQuality();
+
+            var expectedItem = new Item {Name = "Sulfuras, Hand of Ragnaros", Quality = 80, SellIn = 10};
+            Assert.AreEqual(expectedItem.Name, items[0].Name);
+            Assert.AreEqual(expectedItem.SellIn, items[0].SellIn);
+            Assert.AreEqual(expectedItem.Quality, items[0].Quality);
+        }
+
 
 
     }
