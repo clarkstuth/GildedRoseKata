@@ -2,7 +2,7 @@
 
 namespace GildedRose
 {
-    class GildedRose
+    public class GildedRose
     {
         IList<Item> Items;
         public GildedRose(IList<Item> Items)
